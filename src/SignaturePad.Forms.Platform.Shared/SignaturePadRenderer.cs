@@ -1,21 +1,18 @@
 using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
 using System.Linq;
-using Xamarin.Forms;
 using SignaturePad.Forms;
 using SignaturePad.Forms.Platform;
 using Color = Xamarin.Forms.Color;
 using Point = Xamarin.Forms.Point;
-#if WINDOWS_PHONE
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using ImageTools;
-using ImageTools.IO.Png;
-using Xamarin.Forms.Platform.WinPhone;
-using SignaturePad.Forms.WindowsPhone;
-using NativeSignaturePadView = Xamarin.Controls.SignaturePad;
-using NativePoint = System.Windows.Point;
+using Xamarin.Forms;
+using System.IO;
+using System.Threading.Tasks;
+#if WINDOWS_UWP
+using Windows.UI.Xaml.Media;
+using Xamarin.Forms.Platform.UWP;
+using SignaturePad.Forms.UWP;
+using NativeSignaturePadView = SignaturePad.SignaturePadView;
+using NativePoint = Windows.Foundation.Point;
 #elif __IOS__
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
@@ -25,18 +22,16 @@ using NativePoint = CoreGraphics.CGPoint;
 using NativeColor = UIKit.UIColor;
 #elif __ANDROID__
 using Android.Graphics;
-using Android.Widget;
 using Xamarin.Forms.Platform.Android;
 using SignaturePad.Forms.Droid;
 using NativeSignaturePadView = SignaturePad.SignaturePadView;
 using NativePoint = System.Drawing.PointF;
-using NativeColor = Android.Graphics.Color;
 #endif
 
 [assembly: ExportRenderer(typeof(SignaturePadView), typeof(SignaturePadRenderer))]
 
-#if WINDOWS_PHONE
-namespace SignaturePad.Forms.WindowsPhone
+#if WINDOWS_UWP
+namespace SignaturePad.Forms.UWP
 #elif __IOS__
 namespace SignaturePad.Forms.iOS
 #elif __ANDROID__
@@ -57,7 +52,8 @@ namespace SignaturePad.Forms.Droid
 #else
                 var native = new NativeSignaturePadView();
 #endif
-                SetNativeControl(native);
+                if (e.NewElement != null)
+                    SetNativeControl(native);
             }
 
             if (e.OldElement != null)
@@ -93,30 +89,10 @@ namespace SignaturePad.Forms.Droid
             var ctrl = Control;
             if (ctrl != null)
             {
-                var image = ctrl.GetImage();
-#if WINDOWS_PHONE
-                ExtendedImage img = null;
-                if (e.ImageFormat == SignatureImageFormat.Png)
-                {
-                    img = image.ToImage();
-                }
-                var stream = new MemoryStream();
-                e.ImageStreamTask = Task.Run<Stream>(() =>
-                {
-                    if (e.ImageFormat == SignatureImageFormat.Png)
-                    {
-                        var encoder = new PngEncoder();
-                        encoder.Encode(img, stream);
-                        return stream;
-                    }
-                    if (e.ImageFormat == SignatureImageFormat.Jpg)
-                    {
-                        image.SaveJpeg(stream, image.PixelWidth, image.PixelHeight, 0, 100);
-                        return stream;
-                    }
-                    return null;
-                });
+#if WINDOWS_UWP
+                e.ImageStreamTask = ctrl.GetImageStream();
 #elif __IOS__
+                var image = ctrl.GetImage();
                 e.ImageStreamTask = Task.Run(() =>
                 {
                     if (e.ImageFormat == SignatureImageFormat.Png)
@@ -130,6 +106,7 @@ namespace SignaturePad.Forms.Droid
                     return null;
                 });
 #elif __ANDROID__
+                var image = ctrl.GetImage();
                 var stream = new MemoryStream();
                 var format = e.ImageFormat == SignatureImageFormat.Png ? Bitmap.CompressFormat.Png : Bitmap.CompressFormat.Jpeg;
                 e.ImageStreamTask = image
@@ -220,7 +197,7 @@ namespace SignaturePad.Forms.Droid
             if (Element.SignatureLineColor != Color.Default)
             {
                 var color = Element.SignatureLineColor.ToNative();
-#if WINDOWS_PHONE
+#if WINDOWS_UWP
                 Control.SignatureLineBrush = new SolidColorBrush(color);
 #else
                 Control.SignatureLineColor = color;
@@ -277,7 +254,7 @@ namespace SignaturePad.Forms.Droid
             else if (property == SignaturePadView.SignatureLineColorProperty.PropertyName)
             {
                 var color = Element.SignatureLineColor.ToNative();
-#if WINDOWS_PHONE
+#if WINDOWS_UWP
                 Control.SignatureLineBrush = new SolidColorBrush(color);
 #else
                 Control.SignatureLineColor = color;

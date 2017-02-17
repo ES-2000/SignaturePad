@@ -1,0 +1,41 @@
+﻿<UserControl
+    x:Class="SignaturePad.SignaturePadView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid x:Name="LayoutRoot">
+        <InkCanvas Name="inkCanvas"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"/>
+        <TextBlock 
+            Text="X" 
+            HorizontalAlignment="Left" 
+            FontSize="20" 
+            Margin="20,0,0,0"
+            Name="tblDummyText" 
+            VerticalAlignment="Bottom" />
+        <Border 
+            Background="Black"
+            Height="2"
+            HorizontalAlignment="Stretch" 
+            Margin="20,0,20,0" 
+            Name="brdSignatureline"
+            VerticalAlignment="Bottom" />
+        <TextBlock 
+            Text="Clear" 
+            FontSize="11" 
+            Foreground="Black"
+            HorizontalAlignment="Right" 
+            Margin="0,20,20,0" 
+            Name="btnClear"
+            VerticalAlignment="Top" PointerPressed="btnClear_PointerPressed" />
+        <TextBlock 
+            Text="Sign here" 
+            TextAlignment="Center" 
+            FontSize="11" 
+            Margin="3,3,3,3" 
+            Name="tblCaption"
+            VerticalAlignment="Bottom" 
+            Grid.Row="1" />
+    </Grid>
+</UserControl>

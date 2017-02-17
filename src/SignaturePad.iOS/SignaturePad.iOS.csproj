@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{BEF71536-787B-431F-AC7F-A6469710D11F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Xamarin.Controls</RootNamespace>
+    <RootNamespace>SignaturePad</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>SignaturePad</AssemblyName>
     <ProductVersion>8.0.30703</ProductVersion>

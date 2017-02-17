@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ES2000.Xamarin.SignaturePad</id>
+    <title>SignaturePad for Xamarin.Forms</title>
+    <version>1.0.0</version>
+    <authors>es2000</authors>
+    <owners>es2000</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Xamarin.Controls.SignaturePad with UWP support</description>
+    <releaseNotes>Added UWP</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>xamarin,signature,windows,uwp,ios,android</tags>
+  </metadata>
+  <files>
+    <file src="SignaturePad.Android/bin/Release/SignaturePad.dll" target="lib/MonoAndroid/SignaturePad.dll" />
+    <file src="SignaturePad.iOS/bin/unified/Release/SignaturePad.dll" target="lib/Xamarin.iOS/SignaturePad.dll" />
+    <file src="SignaturePad.UWP/bin/Release/SignaturePad.dll" target="lib/UAP/SignaturePad.dll" />
+  </files>
+</package>
